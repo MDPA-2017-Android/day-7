@@ -1,5 +1,6 @@
 package com.lasalle.mdpa.busybudgeter.database.dao;
 
+import android.arch.lifecycle.LiveData;
 import android.arch.persistence.room.Dao;
 import android.arch.persistence.room.Delete;
 import android.arch.persistence.room.Insert;
@@ -14,7 +15,7 @@ import java.util.List;
 public interface BudgetDao {
 
     @Query("Select * from budget order by name asc")
-    List<Budget> getAll();
+    LiveData<List<Budget>> getAll();
 
     @Insert
     void insert(Budget budget);

@@ -1,7 +1,9 @@
 package com.lasalle.mdpa.busybudgeter;
 
 import android.app.Application;
+import android.arch.persistence.room.Room;
 
+import com.lasalle.mdpa.busybudgeter.database.BudgetingDatabase;
 import com.lasalle.mdpa.busybudgeter.manager.UserManager;
 import com.lasalle.mdpa.busybudgeter.manager.impl.UserManagerImpl;
 
@@ -22,6 +24,12 @@ public class BudgetingApplication extends Application {
     public void installToothPickModules(Scope scope) {
         scope.installModules(new Module() {{
             bind(UserManager.class).to(UserManagerImpl.class);
+            bind(BudgetingDatabase.class).toInstance(createBudgetingDatabaseInstance());
         }});
+    }
+
+    private BudgetingDatabase createBudgetingDatabaseInstance() {
+        return Room.databaseBuilder(getApplicationContext(),
+                BudgetingDatabase.class, "database-name").build();
     }
 }
