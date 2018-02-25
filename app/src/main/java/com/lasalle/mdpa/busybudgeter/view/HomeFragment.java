@@ -20,6 +20,7 @@ import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 import static android.app.Activity.RESULT_OK;
 
@@ -27,6 +28,8 @@ import static android.app.Activity.RESULT_OK;
  * A simple {@link Fragment} subclass.
  */
 public class HomeFragment extends Fragment {
+
+    static final int ADD_BUDGET_REQUEST_CODE = 1;
 
     @BindView(R.id.budget_list) RecyclerView recyclerView;
 
@@ -57,6 +60,12 @@ public class HomeFragment extends Fragment {
         return view;
     }
 
+    @OnClick(R.id.add_new_budget_button)
+    public void onAddNewBudgetButtonClicked() {
+        Intent intent = new Intent(getActivity(), AddNewBudgetActivity.class);
+        startActivityForResult(intent, ADD_BUDGET_REQUEST_CODE);
+    }
+
     private void setupRecyclerView() {
         BudgetRecyclerViewAdapater budgetRecyclerViewAdapater = new BudgetRecyclerViewAdapater(new ArrayList<String>() {});
         recyclerView.setAdapter(budgetRecyclerViewAdapater);
@@ -72,8 +81,7 @@ public class HomeFragment extends Fragment {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if(resultCode == RESULT_OK)
-        {
+        if(requestCode == ADD_BUDGET_REQUEST_CODE && resultCode == RESULT_OK) {
 
         }
     }
