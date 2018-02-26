@@ -4,6 +4,7 @@ import android.app.Application;
 import android.arch.lifecycle.AndroidViewModel;
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
+import android.arch.lifecycle.Transformations;
 import android.support.annotation.NonNull;
 
 import com.lasalle.mdpa.busybudgeter.database.BudgetingDatabase;
@@ -35,20 +36,18 @@ public class BudgetViewModel extends AndroidViewModel {
     }
 
     public LiveData<List<String>> getBudgetNameList() {
-        return nameList;
-    }
+        return Transformations.map(
+                budgetingDatabase.getBudgetDao().getAll(),
+                budgetList -> {
+                    List<String> budgetNameList = new ArrayList<>();
 
-    public void retrieveBudgetList() {
-        LiveData<List<Budget>> budgetLiveData = budgetingDatabase.getBudgetDao().getAll();
+                    for(Budget budget : budgetList)
+                    {
+                        budgetNameList.add(budget.getName());
+                    }
 
-        budgetLiveData.observe(getApplication(), budgetList -> {
-            List<String> budgetNameList = new ArrayList<>();
-
-            for(Budget budget : budgetList)
-            {
-                budgetNameList.add(budget.getName());
-            }
-        });
+                    return budgetNameList;
+                });
     }
 
     public void insertNewBudget(String budgetName) {

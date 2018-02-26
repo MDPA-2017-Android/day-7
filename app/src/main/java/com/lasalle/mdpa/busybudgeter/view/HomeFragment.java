@@ -55,8 +55,6 @@ public class HomeFragment extends Fragment {
 
         setupRecyclerView();
 
-        budgetViewModel.retrieveBudgetList();
-
         return view;
     }
 
