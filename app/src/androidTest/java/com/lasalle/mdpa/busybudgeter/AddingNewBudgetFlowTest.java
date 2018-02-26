@@ -88,4 +88,23 @@ public class AddingNewBudgetFlowTest {
         // Check list view contains item
         onView(withText("Item")).check(matches(isDisplayed()));
     }
+
+    @Test
+    public void addMultipleItemsAndVerifyTheyAreDisplayed() {
+        for(int i = 0; i < 3; ++i)
+        {
+            String itemName = "Item_"+i;
+
+            // Click add button
+            onView(withId(R.id.add_new_budget_button)).perform(click());
+
+            // Fill form with budget name
+            onView(withId(R.id.add_budget_name)).perform(typeText(itemName), closeSoftKeyboard());
+            onView(withId(R.id.add_budget_submit)).perform(click());
+
+            // Check list view contains item
+            onView(withText(itemName)).check(matches(isDisplayed()));
+        }
+
+    }
 }
